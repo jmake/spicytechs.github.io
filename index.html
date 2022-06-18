@@ -342,8 +342,11 @@ function ShowWorldAxis(size, scene)
 var GetCameraD = function(scene,canvas) 
 {
   var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
-  camera.position = new BABYLON.Vector3(0,10.0,75);
+  //camera.position = new BABYLON.Vector3(0,10.0,75);
+  camera.position = new BABYLON.Vector3(0,100.0,0);
   camera.setTarget( new BABYLON.Vector3(0,25.0,0) );
+  //camera.setTarget( new BABYLON.Vector3(0,0.0,0) ); 
+
   camera.attachControl(canvas, true);
 	
   camera.useAutoRotationBehavior = true;
@@ -453,17 +456,9 @@ var GetCameraD = function(scene,canvas)
 //    Scene.shadowsEnabled = true;
 
     deltaTime = Engine.getDeltaTime();
-/*
-    if (BABYLON.VideoRecorder.IsSupported(Engine)) 
-    {
-     var recorder = new BABYLON.VideoRecorder(Engine);
-     recorder.startRecording(); 
-    }
-*/
+
 
 ShowWorldAxis(20,Scene); 
-
-
 
 
 Scene.onBeforeRenderObservable.add(()=>
@@ -613,7 +608,32 @@ var DeviceOrientation  = function(camera, textblock)
 
 }
 
-DeviceOrientation(Camera, textblock1); 
+/*
+SEE: 
+https://babylonjs.medium.com/webvr-xr-the-future-is-here-664073d49a65
+
+https://doc.babylonjs.com/divingDeeper/webXR/introToWebXR
+
+https://playground.babylonjs.com/#1ALLVD#9
+https://www.babylonjs-playground.com/#VIGXA3#7
+
+https://stackblitz.com/edit/babylonjs-helloworld?file=index.ts
+
+*/ 
+DeviceOrientation(Camera, textblock1); // :( 
+
+var SaveWebmVideo = function(engine) 
+{ 
+    if (BABYLON.VideoRecorder.IsSupported(engine)) 
+    {
+     var recorder = new BABYLON.VideoRecorder(engine);
+     recorder.startRecording("spicytechs.webm", 60); // segs 
+     //setTimeout(() => {recorder.stopRecording()}, 60*1e3); // millisecond 
+    }
+}
+
+SaveWebmVideo(Engine)
+
 
 Engine.runRenderLoop(function(){Scene.render();});
 
