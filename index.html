@@ -2,7 +2,9 @@
 <html>
   <head>
    <meta charset = "utf-8">
-   <title>BabylonJs - Basic Element-Creating Scene</title>
+   <title> 
+	   SpicyTechs. Beyond The Cloud!!
+   </title>
 
    <!-- Why these lines doesnt work from the notebook ??-->
    <!--script src="https://cdn.jsdelivr.net/npm/babylonjs@4.2.0/babylon.min.js"></script> 
@@ -336,6 +338,20 @@ function ShowWorldAxis(size, scene)
       camera.attachControl(canvas, true);
       return camera; 
     }
+    
+var GetCameraD = function(scene,canvas) 
+{
+  var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
+  camera.position = new BABYLON.Vector3(0,10.0,75);
+  camera.setTarget( new BABYLON.Vector3(0,25.0,0) );
+  camera.attachControl(canvas, true);
+	
+  camera.useAutoRotationBehavior = true;
+  camera.defaultElevation = 0.5 
+  camera.zoomStopsAnimation = false
+  camera.minZ = 0.1;   
+  return camera; 
+}     
 
     var GetLight = function(scene) 
     {  
@@ -405,7 +421,7 @@ function ShowWorldAxis(size, scene)
     var Shadow = GetShadows( GetLightB(Scene) ); 
     //var Camera = GetCamera(Scene, Canvas); 
     //GetCameraB(Scene, Canvas); 
-    var Camera = GetCameraC(Scene, Canvas);
+    var Camera = GetCameraD(Scene, Canvas);
 
     var Ground = GetGround(); 
 
@@ -461,7 +477,7 @@ Scene.onBeforeRenderObservable.add(()=>
 function AddTextblock(atexture) 
 {
   var textblock = new BABYLON.GUI.TextBlock();
-  textblock.text = "[spicytechs]";
+  textblock.text = "SpicyTechs\nBeyond The Clouds!!";
   textblock.fontSize = 15;
   textblock.top = 200;
   textblock.color = "white";
@@ -567,11 +583,15 @@ var animate = function()
 Scene.registerBeforeRender(animate);
 
 
-var DeviceOrientation  = function(textblock) 
+var DeviceOrientation  = function(camera, textblock) 
 {
   window.addEventListener("deviceorientation", function(event) 
   {
-						
+	camera.allowUpsideDown = true;
+	camera.noRotationConstraint = true;
+	camera.lowerBetaLimit = null;
+	camera.upperBetaLimit = null;
+	  
 		var orientation = window.orientation;
 		console.log(orientation);
 
@@ -593,7 +613,7 @@ var DeviceOrientation  = function(textblock)
 
 }
 
-DeviceOrientation(textblock1); 
+DeviceOrientation(Camera, textblock1); 
 
 Engine.runRenderLoop(function(){Scene.render();});
 
